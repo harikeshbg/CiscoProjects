@@ -40,6 +40,10 @@ def ARP_Response(filename):
                          stdout=subprocess.PIPE,
                          stderr=subprocess.STDOUT)
     stdout,stderr=out.communicate()
+    cap=stdout
+    print("Displaying packets")
+    for packet in cap:
+        print(packet)
     stdout=stdout.decode('utf-8')
     stdout=stdout.replace('=','')
     print(stdout)
