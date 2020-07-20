@@ -12,6 +12,9 @@ def dislplay_type_of_arp_packet(filename):
     Out = subprocess.Popen(['tshark', '-r', filename, '-Y', 'arp', '-T', 'fields','-e','arp.src.proto_ipv4', '-e', 'arp.proto.type','-e','arp.hw.type'], stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
     stdout,stderr = Out.communicate()
     stdout = stdout.decode('utf-8')
+    stdout=stdout.replace('\n','<br/>\n')
+    stdout=stdout.replace('0x00000800','IPV4')
+    #stdout=stdout.replace('1','Ethernet')
     return stdout
 
 
@@ -31,6 +34,7 @@ def display_request_packets(filename):
     stdout, stderr = out.communicate()
     stdout = stdout.decode('utf-8')
     stdout = stdout.replace('=', '')
+    stdout = stdout.replace('\n', '<br/>\n')
     htmlFile.write('<center>')
     htmlFile.write('<br><br><h2>' + 'REQUEST_PACKETS:' + '</h2><br><br>')
     htmlFile.write(stdout)
@@ -53,6 +57,7 @@ def display_response_packets(filename):
     stdout, stderr = out.communicate()
     stdout = stdout.decode('utf-8')
     stdout = stdout.replace('=', '')
+    stdout = stdout.replace('\n', '<br/>\n')
     htmlFile.write('<center>')
     htmlFile.write('<br><br><h2>' + 'RESPONSE_PACKETS:' + '</h2><br><br>')
     htmlFile.write(stdout)
@@ -153,11 +158,15 @@ def main():
     htmlFile.write(
         '<br><br>' + "Total number of ARP_response packets captured: " + '<b>' + str(response_count) + '</b><br><br>')
     displayCacheAndCount(cap)
-    htmlFile.write('</center>')
     htmlFile.write('<br><br><h2>' + 'Protocol and hardware types of arp packets:' + '</h2>')
+    htmlFile.write('<pre>')
     htmlFile.write(dislplay_type_of_arp_packet(filename))
+    htmlFile.write('</pre>')
     htmlFile.write('<br><br><center><h1><u>' + 'RAW-DATA' + '</u></h1></center>')
+    htmlFile.write('<pre>')
     display_request_packets(filename)
     display_response_packets(filename)
+    htmlFile.write('</pre>')
+    htmlFile.write('</center>')
 if __name__=="__main__":
     main()
