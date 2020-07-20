@@ -85,7 +85,7 @@ def getProtocolPlot(filename):
         if (formattedLine[4] in protocolList.keys()):
             protocolList[formattedLine[4]] += 1
         else:
-            protocolList.update({formattedLine[4]: 0})
+            protocolList.update({formattedLine[4]: 1})
     arp_packet_count=protocolList["ARP"]
     line_chart=pygal.HorizontalBar()
     line_chart._title="Packet count"
@@ -116,7 +116,7 @@ def displayCacheAndCount(cap):
             if (ip_dst_addr in countdict.keys()):
                 countdict[ip_dst_addr] += 1
             else:
-                countdict.update({ip_dst_addr: 0})
+                countdict.update({ip_dst_addr: 1})
             #print("IP_address =", ip_addr, ",Resolved_mac_address=", resolved_mac_addr)
     #print(dict)
     #print(countdict)
@@ -154,7 +154,7 @@ def main():
     htmlFile.write('<h1>' + '<u>' + "ARP-ANALYSIS" + '</u>' + '</h1><br><br><br>')
     htmlFile.write('<h2>' + 'Frequencies of different protocols during packet capture:' + '</h2>')
     htmlFile.write(image)
-    htmlFile.write('<br><br>' + "Total number of ARP packets captured: " + '<b>' + str(arp_count + 1) + '</b>')
+    htmlFile.write('<br><br>' + "Total number of ARP packets captured: " + '<b>' + str(arp_count) + '</b>')
     htmlFile.write('<br><br>' + "Total number of ARP_request packets captured: " + '<b>' + str(request_count) + '</b>')
     htmlFile.write(
         '<br><br>' + "Total number of ARP_response packets captured: " + '<b>' + str(response_count) + '</b><br><br>')
