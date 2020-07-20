@@ -108,6 +108,8 @@ def displayCacheAndCount():
             ip_dst_addr=packet.arp.dst.proto_ipv4
             resolved_mac_addr = packet.arp.src.hw_mac
             dict.update({ip_addr: resolved_mac_addr})
+        if (int(packet.arp.opcode) == 1):
+            ip_dst_addr = packet.arp.dst.proto_ipv4
             if (ip_dst_addr in countdict.keys()):
                 countdict[ip_dst_addr] += 1
             else:
